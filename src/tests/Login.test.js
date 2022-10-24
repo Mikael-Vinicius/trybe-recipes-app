@@ -5,7 +5,7 @@ import App from '../App';
 import renderWithRouterAndContext from './RenderWith';
 
 describe('testando tela de login', () => {
-  test('testando se o usuario pode logar', () => {
+  it('testando se o usuario pode logar', () => {
   // Este arquivo pode ser modificado ou deletado sem problemas
     const { history } = renderWithRouterAndContext(<App />);
     const emailInput = screen.getByTestId('email-input');

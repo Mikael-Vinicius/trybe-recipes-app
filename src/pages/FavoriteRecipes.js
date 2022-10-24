@@ -2,16 +2,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Header from '../components/Header';
 
-export default function Meals({ history }) {
+export default function FavoriteRecipes({ history }) {
   return (
     <div>
       <Header history={ history }>
-        Meals
+        Favorite Recipes
       </Header>
     </div>
   );
 }
 
-Meals.propTypes = {
+FavoriteRecipes.propTypes = {
   history: PropTypes.shape.isRequired,
 };
