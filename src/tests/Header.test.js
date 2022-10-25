@@ -5,20 +5,20 @@ import App from '../App';
 import renderWithRouterAndContext from './RenderWith';
 
 describe('Testando o componente Header', () => {
-  it('Testa botão de profile', () => {
+  it('Testa botão de profile', async () => {
     const { history } = renderWithRouterAndContext(<App />, { initialEntries: ['/meals'] });
-    const profileBtn = screen.getByTestId('profile-top-btn');
+    const profileBtn = await screen.findByTestId('profile-top-btn');
     expect(profileBtn).toBeInTheDocument();
     userEvent.click(profileBtn);
     expect(history.location.pathname).toBe('/profile');
   });
 
-  it('Testa renderização do botão de search', () => {
+  it('Testa renderização do botão de search', async () => {
     renderWithRouterAndContext(<App />, { initialEntries: ['/meals'] });
-    const searchBtn = screen.getByTestId('search-top-btn');
+    const searchBtn = await screen.findByTestId('search-top-btn');
     expect(searchBtn).toBeInTheDocument();
     userEvent.click(searchBtn);
-    const searchInput = screen.getByTestId('search-input');
+    const searchInput = await screen.findByTestId('search-input');
     expect(searchInput).toBeInTheDocument();
   });
 });

@@ -71,17 +71,17 @@ describe('Testa searchbar no meals', () => {
     });
     renderWithRouterAndContext(<App />, { initialEntries: ['/meals'] });
 
-    const searchBtn = screen.getByTestId('search-top-btn');
+    const searchBtn = await screen.findByTestId('search-top-btn');
     expect(searchBtn).toBeInTheDocument();
 
     userEvent.click(searchBtn);
-    const searchInput = screen.getByTestId('search-input');
-    const nameRadio = screen.getByTestId('name-search-radio');
+    const searchInput = await screen.findByTestId('search-input');
+    const nameRadio = await screen.findByTestId('name-search-radio');
     userEvent.click(nameRadio);
     userEvent.type(searchInput, 'Irish stew');
-    const filterSearch = screen.getByTestId('exec-search-btn');
+    const filterSearch = await screen.findByTestId('exec-search-btn');
     userEvent.click(filterSearch);
-    expect(global.fetch).toBeCalledTimes(1);
+    expect(global.fetch).toBeCalledTimes(2);
     userEvent.clear(searchInput);
   });
 
@@ -91,29 +91,29 @@ describe('Testa searchbar no meals', () => {
     });
     renderWithRouterAndContext(<App />, { initialEntries: ['/meals'] });
 
-    const searchBtn = screen.getByTestId('search-top-btn');
+    const searchBtn = await screen.findByTestId('search-top-btn');
     expect(searchBtn).toBeInTheDocument();
     userEvent.click(searchBtn);
 
-    const searchInput = screen.getByTestId('search-input');
-    const ingredientRadio = screen.getByTestId('ingredient-search-radio');
-    const filterSearch = screen.getByTestId('exec-search-btn');
+    const searchInput = await screen.findByTestId('search-input');
+    const ingredientRadio = await screen.findByTestId('ingredient-search-radio');
+    const filterSearch = await screen.findByTestId('exec-search-btn');
     userEvent.click(ingredientRadio);
 
     userEvent.type(searchInput, 'Tomato');
     userEvent.click(filterSearch);
-    expect(global.fetch).toBeCalledTimes(1);
+    expect(global.fetch).toBeCalledTimes(2);
     userEvent.clear(searchInput);
-    const letterRadio = screen.getByTestId('first-letter-search-radio');
+    const letterRadio = await screen.findByTestId('first-letter-search-radio');
     userEvent.click(letterRadio);
     userEvent.type(searchInput, 'a');
     userEvent.click(filterSearch);
-    expect(global.fetch).toBeCalledTimes(2);
+    expect(global.fetch).toBeCalledTimes(3);
 
     userEvent.clear(searchInput);
     userEvent.click(letterRadio);
     userEvent.type(searchInput, 'aaaaa');
     userEvent.click(filterSearch);
-    expect(global.fetch).toBeCalledTimes(2);
+    expect(global.fetch).toBeCalledTimes(3);
   });
 });
