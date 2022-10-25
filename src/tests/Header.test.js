@@ -13,7 +13,7 @@ describe('Testando o componente Header', () => {
     expect(history.location.pathname).toBe('/profile');
   });
 
-  it('Testa botão de search', () => {
+  it('Testa renderização do botão de search', () => {
     renderWithRouterAndContext(<App />, { initialEntries: ['/meals'] });
     const searchBtn = screen.getByTestId('search-top-btn');
     expect(searchBtn).toBeInTheDocument();

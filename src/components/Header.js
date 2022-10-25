@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
 
 export default function Header({ children, history }) {
   const [handleInput, setHandleInput] = useState(false);
@@ -30,7 +31,9 @@ export default function Header({ children, history }) {
           >
             <img src={ searchIcon } alt="profile" />
           </button>
-          {handleInput && <input type="text" data-testid="search-input" />}
+          {handleInput && (
+            <SearchBar history={ history } />
+          )}
         </div>
       ) : (
         ''
