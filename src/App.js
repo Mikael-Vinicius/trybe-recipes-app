@@ -1,8 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
-import Meals from './pages/Meals';
-import Drinks from './pages/Drinks';
 import DoneRecipes from './pages/DoneRecipes';
 import Profile from './pages/Profile';
 import FavoriteRecipes from './pages/FavoriteRecipes';
@@ -10,6 +8,7 @@ import RecipeMeal from './pages/RecipeMeal';
 import RecipeDrink from './pages/RecipeDrink';
 import RecipeMealProgress from './pages/RecipeMealProgress';
 import RecipeDrinkProgress from './pages/RecipeDrinkProgress';
+import Recipes from './pages/Recipes';
 
 export default function App() {
   return (
@@ -27,8 +26,8 @@ export default function App() {
         path="/meals/:id-da-receita/in-progress"
         component={ RecipeMealProgress }
       />
-      <Route exact path="/meals" component={ Meals } />
-      <Route exact path="/drinks" component={ Drinks } />
+      <Route exact path="/meals" component={ Recipes } />
+      <Route exact path="/drinks" component={ Recipes } />
       <Route exact path="/profile" component={ Profile } />
       <Route exact path="/done-recipes" component={ DoneRecipes } />
       <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />

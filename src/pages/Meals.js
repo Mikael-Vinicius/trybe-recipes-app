@@ -4,9 +4,10 @@ import Header from '../components/Header';
 import Cards from '../components/Cards';
 import AppContext from '../context/AppContext';
 import Footer from '../components/Footer';
+import CategoryButtons from '../components/CategoryButtons';
 
 export default function Meals({ history }) {
-  const { products, setProducts } = useContext(AppContext);
+  const { products, setProducts, setGlobalProducts } = useContext(AppContext);
   const maxArrayLength = 12;
 
   useEffect(() => {
@@ -15,6 +16,7 @@ export default function Meals({ history }) {
       const request = await fetch(endpoint);
       const response = await request.json();
       setProducts(response.meals);
+      setGlobalProducts(response.meals);
     };
     fetchProducts();
   }, []);
@@ -29,6 +31,7 @@ export default function Meals({ history }) {
       <Header history={ history }>
         Meals
       </Header>
+      <CategoryButtons history={ history } />
       {!products
         ? alertProducts()
         : products
@@ -39,6 +42,8 @@ export default function Meals({ history }) {
               img={ el.strMealThumb }
               title={ el.strMeal }
               index={ index }
+              id={ el.idMeal }
+              history={ history }
             />
           ))}
       <Footer history={ history } />
