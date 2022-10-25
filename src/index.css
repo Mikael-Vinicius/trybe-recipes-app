@@ -12,6 +12,16 @@ body {
   bottom: 0;
 }
 
+.carousel {
+  display: flex;
+  overflow-x: scroll;
+}
+
+.start {
+  position: fixed;
+  bottom: 0;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
