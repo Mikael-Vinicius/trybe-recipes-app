@@ -81,7 +81,7 @@ describe('Testa searchbar no meals', () => {
     userEvent.type(searchInput, 'Irish stew');
     const filterSearch = await screen.findByTestId('exec-search-btn');
     userEvent.click(filterSearch);
-    expect(global.fetch).toBeCalledTimes(2);
+    expect(global.fetch).toBeCalledTimes(3);
     userEvent.clear(searchInput);
   });
 
@@ -102,18 +102,18 @@ describe('Testa searchbar no meals', () => {
 
     userEvent.type(searchInput, 'Tomato');
     userEvent.click(filterSearch);
-    expect(global.fetch).toBeCalledTimes(2);
+    expect(global.fetch).toBeCalledTimes(3);
     userEvent.clear(searchInput);
     const letterRadio = await screen.findByTestId('first-letter-search-radio');
     userEvent.click(letterRadio);
     userEvent.type(searchInput, 'a');
     userEvent.click(filterSearch);
-    expect(global.fetch).toBeCalledTimes(3);
+    expect(global.fetch).toBeCalledTimes(4);
 
     userEvent.clear(searchInput);
     userEvent.click(letterRadio);
     userEvent.type(searchInput, 'aaaaa');
     userEvent.click(filterSearch);
-    expect(global.fetch).toBeCalledTimes(3);
+    expect(global.fetch).toBeCalledTimes(4);
   });
 });

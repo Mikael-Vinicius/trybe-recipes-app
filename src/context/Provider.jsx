@@ -7,7 +7,8 @@ function Provider({ children }) {
   const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
   const [filterBar, setFilterBar] = useState('');
-
+  const [categories, setCategories] = useState([]);
+  const [globalProducts, setGlobalProducts] = useState([]);
   const contextValue = useMemo(() => ({
     products,
     setProducts,
@@ -17,7 +18,11 @@ function Provider({ children }) {
     setPasswordInput,
     filterBar,
     setFilterBar,
-  }), [products, emailInput, passwordInput, filterBar]);
+    categories,
+    setCategories,
+    globalProducts,
+    setGlobalProducts,
+  }), [products, emailInput, passwordInput, filterBar, categories, globalProducts]);
 
   return (
     <AppContext.Provider value={ contextValue }>{children}</AppContext.Provider>
