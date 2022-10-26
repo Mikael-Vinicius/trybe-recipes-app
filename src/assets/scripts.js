@@ -1,4 +1,4 @@
-function handleFavorites({
+function handleFavorites({ // FUNÇÃO CHAMADA NO COMPONENTE BUTTONS
   pathname,
   id,
   recipeDetail,
