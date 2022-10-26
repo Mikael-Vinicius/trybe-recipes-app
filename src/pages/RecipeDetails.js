@@ -1,24 +1,25 @@
 import PropTypes from 'prop-types';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Carousel from '../components/Carousel';
 import AppContext from '../context/AppContext';
-import shareIcon from '../images/shareIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
 import IngredientsAndMeasures from '../components/IngredientsAndMeasures';
 import RecipeDetail from '../components/RecipeDetail';
-
-const copy = require('clipboard-copy');
+import Buttons from '../components/Buttons';
 
 export default function RecipeDetails({ history, match }) {
-  const { setRecomendationsProducts,
-    setIdsForMeals,
-    setIdsForDrinks } = useContext(AppContext);
-  const [recipeDetail, setRecipeDetail] = useState({});
-  const [ingredientsDetails, setIngredientsDetails] = useState([]);
-  const [measureDetails, setMeasureDetails] = useState([]);
-  const [copyLink, setCopyLink] = useState(false);
-  const [favoriteR, setFavoriteRecipe] = useState(false);
+  const {
+    setRecomendationsProducts,
+    recipeDetail,
+    setRecipeDetail,
+    ingredientsDetails,
+    setIngredientsDetails,
+    measureDetails,
+    setMeasureDetails,
+    favoriteR,
+    setFavoriteRecipe,
+    copyLink,
+    setCopyLink,
+  } = useContext(AppContext);
 
   const {
     location: { pathname },
@@ -26,6 +27,14 @@ export default function RecipeDetails({ history, match }) {
   const {
     params: { id },
   } = match;
+
+  const favParams = {
+    pathname,
+    id,
+    recipeDetail,
+    favoriteR,
+    setFavoriteRecipe,
+  };
 
   const recomendationsFetch = async () => {
     let endpoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
@@ -84,19 +93,27 @@ export default function RecipeDetails({ history, match }) {
   };
 
   useEffect(() => {
-    getFavorite();
-  }, [favoriteR]);
-
-  useEffect(() => {
     requestDetails();
     recomendationsFetch();
+    getFavorite();
   }, []);
 
   const handleStorage = () => {
-    if (pathname === `/drinks/${id}`) {
-      setIdsForDrinks((prevState) => [...prevState, id]);
-    } else if (pathname === `/meals/${id}`) {
-      setIdsForMeals((prevState) => [...prevState, id]);
+    setCopyLink(!copyLink);
+    const mealsIds = JSON.parse(localStorage.getItem('mealsIds'));
+    const drinksIds = JSON.parse(localStorage.getItem('drinksIds'));
+    if (pathname === `/meals/${id}` && !mealsIds) {
+      localStorage.setItem('mealsIds', JSON.stringify([id]));
+    }
+    if (pathname === `/drinks/${id}` && !drinksIds) {
+      localStorage.setItem('drinksIds', JSON.stringify([id]));
+    }
+    if (pathname === `/drinks/${id}` && drinksIds) {
+      const allDrinksIds = [...drinksIds, id];
+      localStorage.setItem('drinksIds', JSON.stringify(allDrinksIds));
+    } else if (pathname === `/meals/${id}` && mealsIds) {
+      const allMealsIds = [...mealsIds, id];
+      localStorage.setItem('mealsIds', JSON.stringify(allMealsIds));
     }
     history.push(
       pathname === `/drinks/${id}`
@@ -115,41 +132,6 @@ export default function RecipeDetails({ history, match }) {
       keys = Object.keys(idRecipes.drinks);
     }
     return keys.some((e) => e === id);
-  };
-  const handleFavorites = () => {
-    const favoritesStorage = JSON.parse(
-      localStorage.getItem('favoriteRecipes'),
-    );
-    const obj = [
-      {
-        id,
-        type: pathname === `/meals/${id}` ? 'meal' : 'drink',
-        nationality: pathname === `/meals/${id}` ? recipeDetail.strArea : '',
-        category: recipeDetail.strCategory,
-        alcoholicOrNot:
-          pathname === `/drinks/${id}` ? recipeDetail.strAlcoholic : '',
-        name:
-          pathname === `/meals/${id}`
-            ? recipeDetail.strMeal
-            : recipeDetail.strDrink,
-        image:
-          pathname === `/meals/${id}`
-            ? recipeDetail.strMealThumb
-            : recipeDetail.strDrinkThumb,
-      },
-    ];
-    if (favoritesStorage) {
-      if (favoritesStorage.some((e) => e.id === id)) {
-        const removedItems = favoritesStorage.filter((e) => e.id !== id);
-        localStorage.setItem('favoriteRecipes', JSON.stringify(removedItems));
-        return setFavoriteRecipe(!favoriteR);
-      }
-      const allStorage = [...favoritesStorage, ...obj];
-      localStorage.setItem('favoriteRecipes', JSON.stringify(allStorage));
-      return setFavoriteRecipe(!favoriteR);
-    }
-    localStorage.setItem('favoriteRecipes', JSON.stringify(obj));
-    return setFavoriteRecipe(!favoriteR);
   };
 
   return (
@@ -177,6 +159,7 @@ export default function RecipeDetails({ history, match }) {
       {copyLink && <div>Link copied!</div>}
       <Carousel />
       <div className="buttonsDiv">
+        <Buttons favParams={ favParams } />
         {verifyConditions() ? (
           <button
             type="button"
@@ -196,28 +179,6 @@ export default function RecipeDetails({ history, match }) {
             Start Recipe
           </button>
         )}
-        <button
-          type="button"
-          data-testid="share-btn"
-          onClick={ () => {
-            copy(window.location.href);
-            setCopyLink(true);
-          } }
-        >
-          <img src={ shareIcon } alt="share icon" />
-        </button>
-        <button
-          type="button"
-          data-testid="favorite-btn"
-          onClick={ handleFavorites }
-          src={ !favoriteR ? whiteHeartIcon : blackHeartIcon }
-        >
-          {!favoriteR ? (
-            <img src={ whiteHeartIcon } alt="White Heart Ico" />
-          ) : (
-            <img src={ blackHeartIcon } alt="Black Heart Icon" />
-          )}
-        </button>
       </div>
     </div>
   );
