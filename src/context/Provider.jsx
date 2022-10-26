@@ -12,6 +12,11 @@ function Provider({ children }) {
   const [recomendationsProducts, setRecomendationsProducts] = useState([]);
   const [idsForMeals, setIdsForMeals] = useState([]);
   const [idsForDrinks, setIdsForDrinks] = useState([]);
+  const [recipeDetail, setRecipeDetail] = useState({});
+  const [ingredientsDetails, setIngredientsDetails] = useState([]);
+  const [measureDetails, setMeasureDetails] = useState([]);
+  const [favoriteR, setFavoriteRecipe] = useState(false);
+  const [copyLink, setCopyLink] = useState(false);
   const contextValue = useMemo(
     () => ({
       products,
@@ -32,6 +37,16 @@ function Provider({ children }) {
       idsForMeals,
       setIdsForDrinks,
       setIdsForMeals,
+      recipeDetail,
+      setRecipeDetail,
+      ingredientsDetails,
+      setIngredientsDetails,
+      measureDetails,
+      setMeasureDetails,
+      favoriteR,
+      setFavoriteRecipe,
+      copyLink,
+      setCopyLink,
     }),
     [
       products,
@@ -43,6 +58,11 @@ function Provider({ children }) {
       recomendationsProducts,
       idsForDrinks,
       idsForMeals,
+      recipeDetail,
+      ingredientsDetails,
+      measureDetails,
+      favoriteR,
+      copyLink,
     ],
   );
 

@@ -22,12 +22,17 @@ body {
   bottom: 0;
   display: flex;
   width: 100%;
-  justify-content: space-around;
+  gap: 200px;
+  justify-content: center;
 }
 
 .start {
   position: fixed;
   bottom: 0;
+}
+
+.done {
+  text-decoration: line-through solid rgb(0, 0, 0);
 }
 
 code {
