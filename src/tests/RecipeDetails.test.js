@@ -4,6 +4,8 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouterAndContext from './RenderWith';
 
+// Envia novamente PR;
+
 describe('Testa ações da pagina de detalhes', () => {
   it('verifica se a pagina da comida é renderizada corretamente', async () => {
     window.document.execCommand = jest.fn(() => true);
