@@ -17,6 +17,14 @@ body {
   overflow-x: scroll;
 }
 
+.buttonsDiv {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
 .start {
   position: fixed;
   bottom: 0;
