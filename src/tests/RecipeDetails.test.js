@@ -6,6 +6,7 @@ import renderWithRouterAndContext from './RenderWith';
 
 describe('Testa ações da pagina de detalhes', () => {
   it('verifica se a pagina da comida é renderizada corretamente', async () => {
+    window.document.execCommand = jest.fn(() => true);
     const item = {
       drinks: {
         15997: [],
@@ -21,6 +22,8 @@ describe('Testa ações da pagina de detalhes', () => {
     expect(ingredient[0].innerHTML).toEqual('Lentils');
     expect(ingredient[1].innerHTML).toEqual('1 cup ');
     const favBtn = await screen.findByTestId('favorite-btn');
+    const shareBtn = await screen.findByTestId('share-btn');
+    userEvent.click(shareBtn);
     userEvent.click(favBtn);
     userEvent.click(favBtn);
     const startBtn = await screen.findByTestId('start-recipe-btn');
