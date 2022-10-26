@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
+import finishRecipe from '../assets/finishRecipes';
 import handleTask from '../assets/handleTask';
 import verifyRecipes from '../assets/verifyRecipes';
 import Buttons from '../components/Buttons';
@@ -103,10 +104,7 @@ export default function RecipeInProgress({ match, history }) {
     const inProgressRecipes = JSON.parse(
       localStorage.getItem('inProgressRecipes'),
     );
-    const obj = {
-      drinks: {},
-      meals: {},
-    };
+    const obj = { drinks: {}, meals: {} };
     if (!inProgressRecipes) {
       if (pathname === `/meals/${id}/in-progress`) {
         mealsIds.forEach((e) => {
@@ -150,21 +148,37 @@ export default function RecipeInProgress({ match, history }) {
   );
 
   const verifyConditionClass = (value) => {
-    if (pathname === `/meals/${id}/in-progress`) {
-      return inProgressRecipes?.meals[id].some((el) => el === value)
+    if (
+      pathname === `/meals/${id}/in-progress`
+      && inProgressRecipes
+    ) {
+      return inProgressRecipes.meals[id]?.some((el) => el === value)
         ? 'done'
         : '';
     }
-    return inProgressRecipes?.drinks[id].some((el) => el === value)
-      ? 'done'
-      : '';
+    if (
+      pathname === `/drinks/${id}/in-progress`
+      && inProgressRecipes
+    ) {
+      return inProgressRecipes.drinks[id]?.some((el) => el === value)
+        ? 'done'
+        : '';
+    }
   };
 
   const verifyConditionChecked = (value) => {
-    if (pathname === `/meals/${id}/in-progress`) {
-      return inProgressRecipes?.meals[id].some((el) => el === value);
+    if (
+      pathname === `/meals/${id}/in-progress`
+      && inProgressRecipes && inProgressRecipes.meals[id]
+    ) {
+      return inProgressRecipes.meals[id]?.some((el) => el === value);
     }
-    return inProgressRecipes?.drinks[id].some((el) => el === value);
+    if (
+      pathname === `/drinks/${id}/in-progress`
+      && inProgressRecipes && inProgressRecipes.drinks[id]
+    ) {
+      return inProgressRecipes.drinks[id]?.some((el) => el === value);
+    }
   };
 
   return (
@@ -219,6 +233,7 @@ export default function RecipeInProgress({ match, history }) {
           type="button"
           className="start"
           disabled={ !buttonDisabled }
+          onClick={ () => finishRecipe(history, recipeDetail, pathname, id) }
         >
           Finish Recipe
         </button>
