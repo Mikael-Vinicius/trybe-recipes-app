@@ -10,6 +10,8 @@ function Provider({ children }) {
   const [categories, setCategories] = useState([]);
   const [globalProducts, setGlobalProducts] = useState([]);
   const [recomendationsProducts, setRecomendationsProducts] = useState([]);
+  const [idsForMeals, setIdsForMeals] = useState([]);
+  const [idsForDrinks, setIdsForDrinks] = useState([]);
   const contextValue = useMemo(
     () => ({
       products,
@@ -26,6 +28,10 @@ function Provider({ children }) {
       setGlobalProducts,
       recomendationsProducts,
       setRecomendationsProducts,
+      idsForDrinks,
+      idsForMeals,
+      setIdsForDrinks,
+      setIdsForMeals,
     }),
     [
       products,
@@ -35,6 +41,8 @@ function Provider({ children }) {
       categories,
       globalProducts,
       recomendationsProducts,
+      idsForDrinks,
+      idsForMeals,
     ],
   );
 

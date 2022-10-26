@@ -5,8 +5,8 @@ import DoneRecipes from './pages/DoneRecipes';
 import Profile from './pages/Profile';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Recipes from './pages/Recipes';
-import RecipeDetails from './pages/RecipeDetails';
 import RecipeInProgress from './pages/RecipeInProgress';
+import RecipeDetails from './pages/RecipeDetails';
 
 export default function App() {
   return (

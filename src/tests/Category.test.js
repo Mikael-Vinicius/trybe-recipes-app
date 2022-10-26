@@ -7,13 +7,7 @@ import renderWithRouterAndContext from './RenderWith';
 describe('Testa funcionalidade das categorias', () => {
   it('Verifica o toggle', async () => {
     jest.spyOn(global, 'fetch');
-    renderWithRouterAndContext(<App />);
-    const emailInput = screen.getByTestId('email-input');
-    const passwordInput = screen.getByTestId('password-input');
-    const btnSubmit = screen.getByTestId('login-submit-btn');
-    userEvent.type(emailInput, 'trybe@trybe.com');
-    userEvent.type(passwordInput, '1234567');
-    userEvent.click(btnSubmit);
+    renderWithRouterAndContext(<App />, { initialEntries: ['/meals'] });
     const beefCategory = await screen.findByTestId('Beef-category-filter');
     expect(beefCategory).toBeInTheDocument();
     expect(fetch).toHaveBeenCalledTimes(2);
