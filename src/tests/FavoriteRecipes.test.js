@@ -22,7 +22,12 @@ describe('Testa tela de favoritos', () => {
     global.localStorage.setItem('favoriteRecipes', JSON.stringify(storageMock));
     renderWithRouterAndContext(<App />, { initialEntries: ['/favorite-recipes'] });
     const shareBtn = await screen.findByTestId('0-horizontal-share-btn');
+    const favoriteBtn = await screen.findByTestId('0-horizontal-favorite-btn');
     expect(shareBtn).toBeInTheDocument();
+    expect(favoriteBtn).toBeInTheDocument();
     userEvent.click(shareBtn);
+    expect(await screen.findByText(/Link copied!/i)).toBeInTheDocument();
+    userEvent.click(favoriteBtn);
+    expect(favoriteBtn).not.toBeInTheDocument();
   });
 });

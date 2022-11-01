@@ -1,16 +1,29 @@
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Header from '../components/Header';
 import AppContext from '../context/AppContext';
 import shareIcon from '../images/shareIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 const copy = require('clipboard-copy');
 
 export default function FavoriteRecipes({ history }) {
-  const { copyLink, setCopyLink, favoriteR } = useContext(AppContext);
-  const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+  const { copyLink, setCopyLink } = useContext(AppContext);
+  const [favoriteRecipes,
+    setFavoritesRecipes] = useState(JSON.parse(localStorage.getItem('favoriteRecipes')));
+
+  const unFavoriteRecipe = (id) => {
+    const favoritesStorage = JSON.parse(
+      localStorage.getItem('favoriteRecipes'),
+    );
+    if (favoritesStorage.some((e) => e.id === id)) {
+      const removedItems = favoritesStorage.filter((e) => e.id !== id);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(removedItems));
+      setFavoritesRecipes(removedItems);
+    }
+  };
+  useEffect(() => {}, [favoriteRecipes]);
+
   return (
     <div>
       <Header history={ history }>
@@ -48,6 +61,7 @@ export default function FavoriteRecipes({ history }) {
               : `${recipe.alcoholicOrNot}`}
           </p>
           <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
+          {copyLink && <div>Link copied!</div>}
           <button
             type="button"
             data-testid={ `${index}-horizontal-share-btn` }
@@ -55,7 +69,7 @@ export default function FavoriteRecipes({ history }) {
             onClick={ () => {
               copy(
                 window.location.href.replace(
-                  '/done-recipes',
+                  '/favorite-recipes',
                   recipe.type === 'meal'
                     ? `/meals/${recipe.id}`
                     : `/drinks/${recipe.id}`,
@@ -69,13 +83,10 @@ export default function FavoriteRecipes({ history }) {
           <button
             type="button"
             data-testid={ `${index}-horizontal-favorite-btn` }
-            src={ !favoriteR ? whiteHeartIcon : blackHeartIcon }
+            src={ blackHeartIcon }
+            onClick={ () => unFavoriteRecipe(recipe.id) }
           >
-            {!favoriteR ? (
-              <img src={ whiteHeartIcon } alt="White Heart Ico" />
-            ) : (
-              <img src={ blackHeartIcon } alt="Black Heart Icon" />
-            )}
+            <img src={ blackHeartIcon } alt="Black Heart Icon" />
           </button>
         </div>
       ))}
