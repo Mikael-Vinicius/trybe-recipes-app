@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import AppContext from '../context/AppContext';
 import shareIcon from '../images/shareIcon.svg';
@@ -9,6 +10,8 @@ const copy = require('clipboard-copy');
 
 export default function FavoriteRecipes({ history }) {
   const { copyLink, setCopyLink } = useContext(AppContext);
+  const [mealsFilter, setMealsFilter] = useState(false);
+  const [drinksFilter, setDrinksFilter] = useState(false);
   const [favoriteRecipes,
     setFavoritesRecipes] = useState(JSON.parse(localStorage.getItem('favoriteRecipes')));
 
@@ -24,6 +27,31 @@ export default function FavoriteRecipes({ history }) {
   };
   useEffect(() => {}, [favoriteRecipes]);
 
+  const filterFavorites = (type) => {
+    if (type === 'meal') {
+      const recipesFilters = favoriteRecipes.filter(
+        (recipe) => recipe.type === type,
+      );
+      return recipesFilters;
+    }
+    if (type === 'drink') {
+      const recipesFilters = favoriteRecipes.filter(
+        (recipe) => recipe.type === type,
+      );
+      return recipesFilters;
+    }
+    return favoriteRecipes;
+  };
+
+  const verifyCondition = () => {
+    if (mealsFilter) {
+      return 'meal';
+    }
+    if (drinksFilter) {
+      return 'drink';
+    }
+  };
+
   return (
     <div>
       <Header history={ history }>
@@ -32,35 +60,63 @@ export default function FavoriteRecipes({ history }) {
       <button
         type="button"
         data-testid="filter-by-all-btn"
+        onClick={ () => {
+          setDrinksFilter(false);
+          setMealsFilter(false);
+        } }
       >
         All
       </button>
       <button
         type="button"
         data-testid="filter-by-meal-btn"
+        onClick={ () => {
+          setMealsFilter(!mealsFilter);
+          setDrinksFilter(false);
+        } }
       >
         Meals
       </button>
       <button
         type="button"
         data-testid="filter-by-drink-btn"
+        onClick={ () => {
+          setDrinksFilter(!drinksFilter);
+          setMealsFilter(false);
+        } }
       >
         Drinks
       </button>
-      {favoriteRecipes?.map((recipe, index) => (
+      {filterFavorites(verifyCondition())?.map((recipe, index) => (
         <div key={ recipe.id }>
-          <img
-            src={ recipe.image }
-            data-testid={ `${index}-horizontal-image` }
-            alt="recipe"
-            width="250px"
-          />
+          <Link
+            to={
+              recipe.type === 'meal'
+                ? `/meals/${recipe.id}`
+                : `/drinks/${recipe.id}`
+            }
+          >
+            <img
+              src={ recipe.image }
+              data-testid={ `${index}-horizontal-image` }
+              alt="recipe"
+              width="250px"
+            />
+          </Link>
           <p data-testid={ `${index}-horizontal-top-text` }>
             {recipe.type === 'meal'
               ? `${recipe.nationality} - ${recipe.category}`
               : `${recipe.alcoholicOrNot}`}
           </p>
-          <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
+          <Link
+            to={
+              recipe.type === 'meal'
+                ? `/meals/${recipe.id}`
+                : `/drinks/${recipe.id}`
+            }
+          >
+            <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
+          </Link>
           {copyLink && <div>Link copied!</div>}
           <button
             type="button"
