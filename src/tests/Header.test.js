@@ -4,8 +4,13 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouterAndContext from './RenderWith';
 
+const storageMock = {
+  email: 'trybe@trybe.com',
+};
+
 describe('Testando o componente Header', () => {
   it('Testa botão de profile', async () => {
+    global.localStorage.setItem('user', JSON.stringify(storageMock));
     const { history } = renderWithRouterAndContext(<App />, { initialEntries: ['/meals'] });
     const profileBtn = await screen.findByTestId('profile-top-btn');
     expect(profileBtn).toBeInTheDocument();
@@ -14,6 +19,7 @@ describe('Testando o componente Header', () => {
   });
 
   it('Testa renderização do botão de search', async () => {
+    global.localStorage.setItem('user', JSON.stringify(storageMock));
     renderWithRouterAndContext(<App />, { initialEntries: ['/meals'] });
     const searchBtn = await screen.findByTestId('search-top-btn');
     expect(searchBtn).toBeInTheDocument();
