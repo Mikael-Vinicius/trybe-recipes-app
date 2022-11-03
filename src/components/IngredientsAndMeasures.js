@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function IngredientsAndMeasures({ ingredientsDetails, measureDetails }) {
   return (
-    <div>
+    <div className='mt-10 flex justify-center gap-24'>
       <ol>
         {ingredientsDetails?.map((e, i) => (
           <li

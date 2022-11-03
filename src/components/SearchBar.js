@@ -1,3 +1,5 @@
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
 import AppContext from '../context/AppContext';
@@ -55,39 +57,45 @@ export default function SearchBar({ history }) {
   };
 
   return (
-    <div>
+    <div className="flex flex-wrap justify-center p-5 gap-3 mt-8">
       <input
         type="text"
         name="searchInput"
         data-testid="search-input"
         onChange={ (event) => setSearchInput(event.target.value) }
+        className="input input-bordered w-full max-w-xs"
       />
-      Ingredient
-      <input
-        name="filterBar"
-        type="radio"
-        data-testid="ingredient-search-radio"
-        value="Ingredient"
-        onChange={ (event) => setFilterBar(event.target.value) }
-      />
-      Name
-      <input
-        name="filterBar"
-        type="radio"
-        data-testid="name-search-radio"
-        value="Name"
-        onChange={ (event) => setFilterBar(event.target.value) }
-      />
-      First letter
-      <input
-        name="filterBar"
-        type="radio"
-        data-testid="first-letter-search-radio"
-        value="First letter"
-        onChange={ (event) => setFilterBar(event.target.value) }
-      />
-      <button data-testid="exec-search-btn" type="button" onClick={ handleClick }>
-        Search
+      <div className="flex gap-5 justify-center items-center flex-wrap">
+        Ingredient
+        <input
+          name="filterBar"
+          type="radio"
+          data-testid="ingredient-search-radio"
+          value="Ingredient"
+          onChange={ (event) => setFilterBar(event.target.value) }
+          className="radio radio-primary"
+        />
+        Name
+        <input
+          name="filterBar"
+          type="radio"
+          data-testid="name-search-radio"
+          value="Name"
+          onChange={ (event) => setFilterBar(event.target.value) }
+          className="radio radio-primary"
+        />
+        First letter
+        <input
+          name="filterBar"
+          type="radio"
+          data-testid="first-letter-search-radio"
+          value="First letter"
+          onChange={ (event) => setFilterBar(event.target.value) }
+          className="radio radio-primary"
+        />
+      </div>
+      <button data-testid="exec-search-btn" type="button" onClick={ handleClick } className="btn btn-primary">
+        <FontAwesomeIcon icon={ faMagnifyingGlass } />
       </button>
     </div>
   );

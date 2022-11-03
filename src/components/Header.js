@@ -1,3 +1,5 @@
+import { faMagnifyingGlass, faUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import profileIcon from '../images/profileIcon.svg';
@@ -11,30 +13,40 @@ export default function Header({ children, history }) {
     location: { pathname },
   } = history;
   return (
-    <div>
-      <h1 data-testid="page-title">{children}</h1>
-      <button
-        type="button"
-        data-testid="profile-top-btn"
-        onClick={ () => history.push('/profile') }
-        src={ profileIcon }
-      >
-        <img src={ profileIcon } alt="profile" />
-      </button>
+    <div className="flex text-xl text-white p-1">
+      <span data-testid="page-title" className="w-0 text-4xl text-blue-100">{children}</span>
       {pathname === '/meals' || pathname === '/drinks' ? (
-        <div>
+        ''
+      ) : (
+        <div className="flex flex-wrap justify-end items-center w-full">
+          <button
+            type="button"
+            data-testid="profile-top-btn"
+            onClick={ () => history.push('/profile') }
+          >
+            <FontAwesomeIcon icon={faUser} />
+          </button>
+        </div>)}
+      {pathname === '/meals' || pathname === '/drinks' ? (
+        <div className="flex justify-end w-full flex-wrap gap-2">
+          <button
+            type="button"
+            data-testid="profile-top-btn"
+            onClick={ () => history.push('/profile') }
+          >
+            <FontAwesomeIcon icon={faUser} />
+          </button>
           <button
             type="button"
             onClick={ () => setHandleInput(!handleInput) }
             data-testid="search-top-btn"
-            src={ searchIcon }
           >
-            <img src={ searchIcon } alt="profile" />
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
           </button>
           {handleInput && (
             <SearchBar history={ history } />
           )}
-        </div>
+          </div>
       ) : (
         ''
       )}

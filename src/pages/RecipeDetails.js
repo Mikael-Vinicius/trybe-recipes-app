@@ -5,6 +5,7 @@ import AppContext from '../context/AppContext';
 import IngredientsAndMeasures from '../components/IngredientsAndMeasures';
 import RecipeDetail from '../components/RecipeDetail';
 import Buttons from '../components/Buttons';
+import Alert from '../components/Alert';
 
 export default function RecipeDetails({ history, match }) {
   const {
@@ -99,7 +100,7 @@ export default function RecipeDetails({ history, match }) {
   }, []);
 
   const handleStorage = () => {
-    setCopyLink(!copyLink);
+    setCopyLink(false);
     const mealsIds = JSON.parse(localStorage.getItem('mealsIds'));
     const drinksIds = JSON.parse(localStorage.getItem('drinksIds'));
     if (pathname === `/meals/${id}` && !mealsIds) {
@@ -141,31 +142,35 @@ export default function RecipeDetails({ history, match }) {
         ingredientsDetails={ ingredientsDetails }
         measureDetails={ measureDetails }
       />
-      <div>
-        <p>Instructions</p>
-        <p data-testid="instructions">{recipeDetail.strInstructions}</p>
+      <div className='mt-10'>
+        <p className='text-center text-xl underline underline-offset-8'>Instructions</p>
+        <div className='bg-slate-700 rounded-xl shadow-lg shadow-black w-80 mx-auto'>
+        <p data-testid="instructions" className='mt-5 text-md mx-2 leading-7 py-2 text-white'>{recipeDetail.strInstructions}</p>
+        </div>
       </div>
       {recipeDetail.strYoutube && (
-        <div>
+        <div className='mt-10 flex justify-center'>
           {pathname === `/meals/${id}` && (
             <iframe
               src={ recipeDetail.strYoutube.replace('watch?v=', 'embed/') }
               data-testid="video"
               title="Recipe Video"
+              className='rounded-xl shadow-sm shadow-black'
             />
           )}
         </div>
       )}
-      {copyLink && <div>Link copied!</div>}
+      {copyLink && <Alert />}
       <Carousel />
-      <div className="buttonsDiv">
         <Buttons favParams={ favParams } />
+      <div className="fixed bottom-0 flex justify-center items-center w-full my-2">
         {verifyConditions() ? (
           <button
             type="button"
             data-testid="start-recipe-btn"
             onClick={ handleStorage }
-            className="start"
+            className="btn btn-success w-80"
+
           >
             Continue Recipe
           </button>
@@ -174,7 +179,7 @@ export default function RecipeDetails({ history, match }) {
             type="button"
             data-testid="start-recipe-btn"
             onClick={ handleStorage }
-            className="start"
+            className="btn btn-success w-80"
           >
             Start Recipe
           </button>

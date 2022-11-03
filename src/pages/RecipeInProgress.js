@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import finishRecipe from '../assets/finishRecipes';
 import handleTask from '../assets/handleTask';
 import verifyRecipes from '../assets/verifyRecipes';
+import Alert from '../components/Alert';
 import Buttons from '../components/Buttons';
 import AppContext from '../context/AppContext';
 
@@ -191,18 +192,21 @@ export default function RecipeInProgress({ match, history }) {
             : recipeDetail.strDrinkThumb
         }
         alt="img-thumb"
+        className='w-72 mx-auto mt-5 rounded-lg shadow-lg shadow-slate-500'
       />
-      <h2 data-testid="recipe-title">
+      <h2 data-testid="recipe-title" className='text-3xl text-center text-orange-400'>
         {recipeDetail.strMeal ? recipeDetail.strMeal : recipeDetail.strDrink}
       </h2>
-      <div onChange={ verifyCheckeds }>
+      <div onChange={ verifyCheckeds } className="flex flex-wrap mx-auto items-center justify-center">
         {ingredientsDetails?.map((e, i) => (
-          <div key={ e.recipesProduct }>
+          <div key={ e.recipesProduct } className="form-control">
             <label
               htmlFor={ e.recipesProduct }
               data-testid={ `${i}-ingredient-step` }
-              className={ verifyConditionClass(e.recipesProduct) }
+              className={ `${verifyConditionClass(e.recipesProduct)} label cursor-pointer` }
             >
+            <div className='flex justify-center items-center h-10'>
+              <span className='label-text mx-2'>{e.recipesProduct}</span>
               <input
                 data-testid={ `${i}-ingredient-name-and-measure` }
                 type="checkbox"
@@ -210,33 +214,40 @@ export default function RecipeInProgress({ match, history }) {
                 onChange={ (event) => handleTask(event, pathname, id) }
                 defaultChecked={ verifyConditionChecked(e.recipesProduct) }
                 id="inputs"
+                className="checkbox checkbox-primary"
               />
-              {e.recipesProduct}
+            </div>
             </label>
           </div>
         ))}
       </div>
-      <h3 data-testid="recipe-category">
+      <h3 data-testid="recipe-category" className='text-end mx-5 text-xl underline underline-offset-8'>
         {pathname === `/meals/${id}/in-progress`
           ? recipeDetail.strCategory
           : recipeDetail.strAlcoholic}
       </h3>
-      {copyLink && <div>Link copied!</div>}
-      <div>
-        <p>Instructions</p>
-        <p data-testid="instructions">{recipeDetail.strInstructions}</p>
+      <div className='mt-10'>
+        <p className='text-center text-xl underline underline-offset-8'>Instructions</p>
+        <div className='bg-slate-700 rounded-xl shadow-lg shadow-black w-80 mx-auto'>
+        <p data-testid="instructions" className='mt-5 text-md mx-2 leading-7 py-2 text-white'>{recipeDetail.strInstructions}</p>
+        </div>
       </div>
-      <div className="buttonsDiv">
+      <div className="mt-10">
+      {copyLink && <Alert />}
+      <div className='mt-5'>
         <Buttons favParams={ favParams } />
+        </div>
+        <div className="fixed bottom-0 flex justify-center items-center w-full my-2">
         <button
           data-testid="finish-recipe-btn"
           type="button"
-          className="start"
           disabled={ !buttonDisabled }
           onClick={ () => finishRecipe(history, recipeDetail, pathname, id) }
+          className="btn btn-success w-80"
         >
           Finish Recipe
         </button>
+        </div>
       </div>
     </div>
   );

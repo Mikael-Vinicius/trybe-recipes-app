@@ -1,6 +1,9 @@
 import React, { useContext, useState } from 'react';
+import Alert from "../components/Alert";
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShare } from '@fortawesome/free-solid-svg-icons';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
 import AppContext from '../context/AppContext';
@@ -38,8 +41,10 @@ export default function DoneRecipes({ history }) {
     return allRecipes;
   };
   return (
-    <div>
+    <div className='mb-5'>
       <Header history={ history }>Done Recipes</Header>
+      <div className="bg-slate-700 mt-8 w-5/6 mx-auto rounded-lg shadow-lg shadow-black">
+      <div className="flex flex-wrap gap-2 justify-center p-3">
       <button
         type="button"
         data-testid="filter-by-all-btn"
@@ -47,6 +52,7 @@ export default function DoneRecipes({ history }) {
           setDrinksFilter(false);
           setMealsFilter(false);
         } }
+        className="btn btn-outline btn-accent btn-xs"
       >
         All
       </button>
@@ -57,6 +63,7 @@ export default function DoneRecipes({ history }) {
           setMealsFilter(!mealsFilter);
           setDrinksFilter(false);
         } }
+        className="btn btn-xs btn-outline"
       >
         Meals
       </button>
@@ -67,12 +74,15 @@ export default function DoneRecipes({ history }) {
           setDrinksFilter(!drinksFilter);
           setMealsFilter(false);
         } }
+        className="btn btn-xs btn-outline"
       >
         Drinks
       </button>
-
+      </div>
+      </div>
+      <div className='flex flex-col items-center justify-center mt-10'>
       {recipeFilter(verifyCondition())?.map((recipe, index) => (
-        <div key={ recipe.id }>
+        <div key={ recipe.id } className="text-center mb-5">
           <Link
             to={
               recipe.type === 'meal'
@@ -84,10 +94,10 @@ export default function DoneRecipes({ history }) {
               src={ recipe.image }
               data-testid={ `${index}-horizontal-image` }
               alt="recipe"
-              width="250px"
+              className='w-80 rounded-xl shadow-lg shadow-black'
             />
           </Link>
-          <p data-testid={ `${index}-horizontal-top-text` }>
+          <p data-testid={ `${index}-horizontal-top-text` } className="text-2xl">
             {recipe.type === 'meal'
               ? `${recipe.nationality} - ${recipe.category}`
               : `${recipe.alcoholicOrNot}`}
@@ -99,14 +109,14 @@ export default function DoneRecipes({ history }) {
                 : `/drinks/${recipe.id}`
             }
           >
-            <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
+            <p data-testid={ `${index}-horizontal-name` } className="text-4xl text-orange-300">{recipe.name}</p>
           </Link>
-          <p data-testid={ `${index}-horizontal-done-date` }>{recipe.doneDate}</p>
-          {copyLink && <div>Link copied!</div>}
+          <p data-testid={ `${index}-horizontal-done-date` } className="text-slate-200">{recipe.doneDate}</p>
+          {copyLink && <Alert />}
           <button
             type="button"
             data-testid={ `${index}-horizontal-share-btn` }
-            src={ shareIcon }
+            className="mt-5"
             onClick={ () => {
               copy(
                 window.location.href.replace(
@@ -119,13 +129,14 @@ export default function DoneRecipes({ history }) {
               setCopyLink(!copyLink);
             } }
           >
-            <img src={ shareIcon } alt="share icon" />
+            <FontAwesomeIcon icon={faShare} className="text-3xl" />
           </button>
-          <ul>
+          <ul className='mt-3'>
             {recipe?.tags.map((tagName) => (
               <li
                 data-testid={ `${index}-${tagName}-horizontal-tag` }
                 key={ tagName }
+                className="text-sm text-red-400"
               >
                 {tagName}
               </li>
@@ -133,6 +144,7 @@ export default function DoneRecipes({ history }) {
           </ul>
         </div>
       ))}
+      </div>
     </div>
   );
 }
