@@ -5,6 +5,8 @@ import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import handleFavorites from '../assets/scripts';
 import AppContext from '../context/AppContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart, faHeartCircleBolt, faShare } from '@fortawesome/free-solid-svg-icons';
 
 const copy = require('clipboard-copy');
 
@@ -12,7 +14,7 @@ export default function Buttons({ favParams }) {
   const { favoriteR, setCopyLink, copyLink } = useContext(AppContext);
   return (
     <div
-      className="buttonsDiv"
+      className="mb-20 flex justify-center gap-10"
     >
       <button
         type="button"
@@ -22,7 +24,7 @@ export default function Buttons({ favParams }) {
           setCopyLink(!copyLink);
         } }
       >
-        <img src={ shareIcon } alt="share icon" />
+        <FontAwesomeIcon icon={faShare} className="text-3xl" />
       </button>
       <button
         type="button"
@@ -31,9 +33,9 @@ export default function Buttons({ favParams }) {
         src={ !favoriteR ? whiteHeartIcon : blackHeartIcon }
       >
         {!favoriteR ? (
-          <img src={ whiteHeartIcon } alt="White Heart Ico" />
+          <FontAwesomeIcon icon={faHeart} className="text-white text-3xl" />
         ) : (
-          <img src={ blackHeartIcon } alt="Black Heart Icon" />
+          <FontAwesomeIcon icon={faHeart} className="text-red-600 text-3xl" />
         )}
       </button>
     </div>

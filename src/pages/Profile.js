@@ -14,11 +14,13 @@ export default function Profile({ history }) {
   return (
     <div>
       <Header history={ history }>Profile</Header>
-      <span data-testid="profile-email">{user ? user.email : ''}</span>
+      <span data-testid="profile-email" className='text-xl m-1'>{user ? user.email : ''}</span>
+      <div className='flex flex-col gap-32 mt-16 mx-2'>
       <button
         type="button"
         data-testid="profile-done-btn"
         onClick={ () => history.push('/done-recipes') }
+        className="btn btn-outline btn-primary"
       >
         Done Recipes
       </button>
@@ -26,6 +28,7 @@ export default function Profile({ history }) {
         onClick={ () => history.push('/favorite-recipes') }
         data-testid="profile-favorite-btn"
         type="button"
+        className="btn btn-outline btn-primary"
       >
         Favorite Recipes
       </button>
@@ -33,9 +36,11 @@ export default function Profile({ history }) {
         data-testid="profile-logout-btn"
         type="button"
         onClick={ logoutFunction }
+        className="btn btn-outline btn-primary"
       >
         Logout
       </button>
+      </div>
       <Footer history={ history } />
     </div>
   );

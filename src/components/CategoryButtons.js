@@ -1,3 +1,5 @@
+import { faCow } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../context/AppContext';
@@ -48,24 +50,28 @@ export default function CategoryButtons({ history }) {
   };
 
   return (
-    <div>
-      {categories?.slice(0, maxCategoriesLength).map((e, i) => (
+    <div className="bg-slate-700 mt-8 w-5/6 mx-auto rounded-lg shadow-lg shadow-black">
+      <div className="flex flex-wrap gap-2 justify-center p-3">
+        {categories?.slice(0, maxCategoriesLength).map((e, i) => (
+          <button
+            type="button"
+            data-testid={ `${e.strCategory}-category-filter` }
+            key={ i }
+            onClick={ () => filterByCategory(e.strCategory) }
+            className="btn btn-xs btn-outline"
+          >
+            {e.strCategory}
+          </button>
+        ))}
         <button
           type="button"
-          data-testid={ `${e.strCategory}-category-filter` }
-          key={ i }
-          onClick={ () => filterByCategory(e.strCategory) }
+          onClick={ () => setProducts(globalProducts) }
+          data-testid="All-category-filter"
+          className="btn btn-outline btn-accent btn-xs"
         >
-          {e.strCategory}
+          All
         </button>
-      ))}
-      <button
-        type="button"
-        onClick={ () => setProducts(globalProducts) }
-        data-testid="All-category-filter"
-      >
-        All
-      </button>
+      </div>
     </div>
   );
 }

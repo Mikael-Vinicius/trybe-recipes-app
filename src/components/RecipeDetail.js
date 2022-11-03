@@ -4,7 +4,6 @@ import React from 'react';
 export default function RecipeDetail({ recipeDetail, id, pathname }) {
   return (
     <div>
-      <div>RecipeDetails</div>
       <img
         src={
           pathname === `/meals/${id}`
@@ -13,17 +12,18 @@ export default function RecipeDetail({ recipeDetail, id, pathname }) {
         }
         data-testid="recipe-photo"
         alt="img-recipe"
+        className='w-72 mx-auto mt-5 rounded-lg shadow-lg shadow-slate-500'
       />
-      <h2 data-testid="recipe-title">
+      <h2 data-testid="recipe-title" className='text-3xl text-center text-orange-400'>
         {pathname === `/meals/${id}`
           ? recipeDetail.strMeal
           : recipeDetail.strDrink}
       </h2>
       {pathname === `/meals/${id}` && (
-        <h3 data-testid="recipe-category">{recipeDetail.strCategory}</h3>
+        <h3 data-testid="recipe-category" className='text-end mx-5 text-xl underline underline-offset-8'>{recipeDetail.strCategory}</h3>
       )}
       {pathname === `/drinks/${id}` && (
-        <span data-testid="recipe-category">{recipeDetail.strAlcoholic}</span>
+        <span data-testid="recipe-category" className='text-end mx-5 text-xl underline underline-offset-8'>{recipeDetail.strAlcoholic}</span>
       )}
     </div>
   );
